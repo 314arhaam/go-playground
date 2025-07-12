@@ -2,22 +2,28 @@ package main
 
 import "fmt"
 import "math"
-import "errors"
+import "os"
+import "strconv"
 
-func quad(a float64, b float64, c float64, x float64) float64 {
-	return a * math.Pow(x, 2) + b * x + c
+type Root struct {
+	r1 float64
+	r2 float64
 }
 
-func solve(a float64, b float64, c float64) (float64, float64, error) {
+type Result struct {
+    Value Root
+    Err   error
+}
+
+func solve(a float64, b float64, c float64) (float64, float64) {
 	delta := math.Pow(b, 2) - 4 * a * c
-	if delta < 0 {
-		return 0., 0., errors.New("Negative delta")
-	} else {
-		return (-b + math.Sqrt(delta))/2/a, (-b - math.Sqrt(delta))/2/a, nil
-	}
+	return (-b + math.Sqrt(delta))/2/a, (-b - math.Sqrt(delta))/2/a
 }
 
 func main() {
 	// fmt.Println(quad(1., 1., 1., 1.))
-	fmt.Println(solve(1., 4., +16.))
+	a, _ := strconv.ParseFloat(os.Args[1], 64)
+    b, _ := strconv.ParseFloat(os.Args[2], 64)
+	c, _ := strconv.ParseFloat(os.Args[3], 64)
+	fmt.Println(solve(a, b, c))
 }
